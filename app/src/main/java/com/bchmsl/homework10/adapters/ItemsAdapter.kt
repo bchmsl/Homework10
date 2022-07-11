@@ -16,16 +16,14 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
         RecyclerView.ViewHolder(binding.root)
 
     private val differCallBack = object : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-            return oldItem.image == newItem.image
-        }
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
+            oldItem.image == newItem.image
 
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-            return oldItem == newItem
-        }
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean =
+            oldItem == newItem
+
     }
-
-    val differ = AsyncListDiffer(this, differCallBack)
+    val differ = AsyncListDiffer(this@ItemsAdapter, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder =
         ItemsViewHolder(
@@ -37,14 +35,14 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
         )
 
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
-        bind(holder, position)
+        onBind(holder.binding, position)
     }
 
     override fun getItemCount(): Int = differ.currentList.size
 
-    private fun bind(holder: ItemsViewHolder, position: Int) {
+    private fun onBind(binding: LayoutItemBinding, position: Int) {
         val currentItem = differ.currentList[position]
-        holder.binding.apply {
+        binding.apply {
             tvTitle.text = currentItem.title
             val oldPrice = "$" + currentItem.price.toString()
             tvPrice.text = oldPrice
@@ -62,8 +60,10 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
             } else {
                 tvOldPrice.visibility = View.GONE
             }
+
         }
     }
+
 
 //    fun updateRV(newProductsList: List<Product>) {
 //        val diffUtil = ItemsDiffUtil(selectedProductsList, newProductsList)

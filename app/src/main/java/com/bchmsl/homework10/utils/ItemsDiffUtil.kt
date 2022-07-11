@@ -6,7 +6,7 @@ import com.bchmsl.homework10.data.Product
 class ItemsDiffUtil(
     private val oldList: List<Product>,
     private val newList: List<Product>
-): DiffUtil.Callback() {
+) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
     override fun getNewListSize(): Int = newList.size

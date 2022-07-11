@@ -1,5 +1,9 @@
 package com.bchmsl.homework10.data
 
+import com.bchmsl.homework10.R
+
+typealias D = R.drawable
+
 val productsList = listOf(
     Product(
         "Men Cargo Joggers",

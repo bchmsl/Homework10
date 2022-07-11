@@ -1,15 +1,12 @@
 package com.bchmsl.homework10.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bchmsl.homework10.R
 import com.bchmsl.homework10.data.D
 import com.bchmsl.homework10.data.Filters
-import com.bchmsl.homework10.data.selectedCategoriesList
 import com.bchmsl.homework10.databinding.LayoutCategoryBinding
-import java.util.*
 
 typealias onClick = (category: Filters.Category) -> Unit
 
@@ -31,19 +28,26 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewH
         )
 
     override fun onBindViewHolder(holder: CategoriesViewHolder, position: Int) {
-        bind(holder, position)
+        val currentItem = categories[position]
+        onBind(holder.binding, currentItem)
     }
 
     override fun getItemCount(): Int = categories.size
 
-    private fun bind(holder: CategoriesViewHolder, position: Int) {
-        val currentItem = categories[position]
-        holder.binding.tvCategory.text = currentItem.categoryName
-        if (currentItem.selected){
-            holder.binding.root.setBackgroundResource(D.category_selected)
-        }else{
-            holder.binding.root.setBackgroundResource(D.category_unselected)
+
+    private fun onBind(binding: LayoutCategoryBinding, currentItem: Filters.Category) {
+        binding.root.apply {
+            text = currentItem.categoryName
+            selectCategory(this@apply, currentItem)
+            binding.root.setOnClickListener { onClick(currentItem) }
         }
-        holder.binding.root.setOnClickListener { onClick(currentItem) }
+    }
+
+    private fun selectCategory(view: AppCompatTextView, currentItem: Filters.Category) {
+        if (currentItem.selected) {
+            view.setBackgroundResource(D.category_selected)
+        } else {
+            view.setBackgroundResource(D.category_unselected)
+        }
     }
 }
