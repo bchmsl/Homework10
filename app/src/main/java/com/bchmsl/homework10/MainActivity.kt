@@ -47,16 +47,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("NotifyDataSetChanged") // :)
-    private fun listeners(){
+        @SuppressLint("NotifyDataSetChanged") // :)
+    private fun listeners() {
         selectedProductsList.addAll(productsList)
+        itemsAdapter.differ.submitList(selectedProductsList)
         categoriesAdapter.onClick = { category ->
-            if (category !in selectedCategoriesList){
+            if (category !in selectedCategoriesList) {
                 selectedCategoriesList.add(category)
-            }else{
+            } else {
                 try {
                     selectedCategoriesList.remove(category)
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     d("TAG", selectedCategoriesList.toString())
                 }
             }
@@ -67,8 +68,8 @@ class MainActivity : AppCompatActivity() {
             selectedProductsList.clear()
             d("TAG_PRODUCTS", productsList.toString())
             productsList.forEach { product ->
-                if(product.category.containsAll(selectedCategoriesList))
-                        selectedProductsList.add(product)
+                if (product.category.containsAll(selectedCategoriesList))
+                    selectedProductsList.add(product)
 
             }
             d("TAG_SELECTED_CATEGORIES", selectedCategoriesList.toString())
