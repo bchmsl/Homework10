@@ -8,10 +8,11 @@
         <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/drawable/category_unselected.xml" value="0.2985" />
         <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/drawable/rectangle.xml" value="0.2985" />
         <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/drawable/text_strikethrough.xml" value="0.2985" />
+        <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/layout/activity_item_opened.xml" value="0.37907608695652173" />
         <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/layout/activity_main.xml" value="0.3360522022838499" />
-        <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/layout/layout_category.xml" value="0.35128205128205126" />
+        <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/layout/layout_category.xml" value="0.75" />
         <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/layout/layout_category_selected.xml" value="0.3015625" />
-        <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/layout/layout_item.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/BCHMSL/AndroidStudioProjects/Homework10/app/src/main/res/layout/layout_item.xml" value="0.5" />
       </map>
     </option>
   </component>

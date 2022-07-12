@@ -1,6 +1,7 @@
 package com.bchmsl.homework10
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log.d
@@ -49,6 +50,11 @@ class MainActivity : AppCompatActivity() {
     private fun listeners() {
         categoriesAdapter.onClick = { category ->
             clickCategory(category)
+        }
+        itemsAdapter.onItemClick = {
+            val intent = Intent(this, ItemOpenedActivity::class.java)
+            intent.putExtra("item", it)
+            startActivity(intent)
         }
     }
 

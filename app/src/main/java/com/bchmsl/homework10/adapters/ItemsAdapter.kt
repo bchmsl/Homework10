@@ -11,9 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bchmsl.homework10.data.Product
 import com.bchmsl.homework10.databinding.LayoutItemBinding
 
+typealias onItemClick = (item : Product) -> Unit
+
 class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
     inner class ItemsViewHolder(val binding: LayoutItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    lateinit var onItemClick: onItemClick
 
     private val differCallBack = object : DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
@@ -60,7 +64,7 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
             } else {
                 tvOldPrice.visibility = View.GONE
             }
-
+            root.setOnClickListener { onItemClick(currentItem) }
         }
     }
 
