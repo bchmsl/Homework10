@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bchmsl.homework10.data.Filters
 import com.bchmsl.homework10.data.Product
 import com.bchmsl.homework10.data.selectedProductsList
 import com.bchmsl.homework10.databinding.LayoutItemBinding
@@ -20,20 +19,29 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
     inner class ItemsViewHolder(val binding: LayoutItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    class ItemsDiffUtil(
+
+
+
+    class ItemsDiffUtilCallback(
         private val oldList: MutableList<Product>,
         private val newList: MutableList<Product>
     ) : DiffUtil.Callback() {
+
         override fun getOldListSize(): Int = oldList.size
 
         override fun getNewListSize(): Int = newList.size
 
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldList[oldItemPosition].image == newList[newItemPosition].image
+            oldList[oldItemPosition].id == newList[newItemPosition].id
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
             oldList[oldItemPosition] == newList[newItemPosition]
+
     }
+
+
+
+
 
     lateinit var onItemClick: onItemClick
 
@@ -80,10 +88,10 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
 
     fun updateRV(newProductsList: List<Product>) {
         val oldProductsList = selectedProductsList
-        val diffResults = DiffUtil.calculateDiff(ItemsDiffUtil(oldProductsList,
+        val diffResults = DiffUtil.calculateDiff(ItemsDiffUtilCallback(oldProductsList,
             newProductsList as MutableList<Product>
         ))
-        selectedProductsList = newProductsList as MutableList<Product>
+        selectedProductsList = newProductsList
         diffResults.dispatchUpdatesTo(this)
     }
 }
