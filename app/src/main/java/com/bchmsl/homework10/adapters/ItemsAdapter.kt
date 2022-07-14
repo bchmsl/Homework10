@@ -9,25 +9,35 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bchmsl.homework10.data.Product
+import com.bchmsl.homework10.data.selectedProductsList
 import com.bchmsl.homework10.databinding.LayoutItemBinding
 
 typealias onItemClick = (item : Product) -> Unit
 
 class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
+
+    private var items = listOf<Product>()
+
     inner class ItemsViewHolder(val binding: LayoutItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
+    class ItemsDiffUtil(
+        private val oldList: List<Product>,
+        private val newList: List<Product>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int = oldList.size
+
+        override fun getNewListSize(): Int = newList.size
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition].image == newList[newItemPosition].image
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+            oldList[oldItemPosition] == newList[newItemPosition]
+    }
+
     lateinit var onItemClick: onItemClick
 
-    private val differCallBack = object : DiffUtil.ItemCallback<Product>() {
-        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean =
-            oldItem.image == newItem.image
-
-        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean =
-            oldItem == newItem
-
-    }
-    val differ = AsyncListDiffer(this@ItemsAdapter, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder =
         ItemsViewHolder(
@@ -42,10 +52,10 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
         onBind(holder.binding, position)
     }
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun getItemCount(): Int = items.size
 
     private fun onBind(binding: LayoutItemBinding, position: Int) {
-        val currentItem = differ.currentList[position]
+        val currentItem = items[position]
         binding.apply {
             tvTitle.text = currentItem.title
             val oldPrice = "$" + currentItem.price.toString()
@@ -69,10 +79,10 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
     }
 
 
-//    fun updateRV(newProductsList: List<Product>) {
-//        val diffUtil = ItemsDiffUtil(selectedProductsList, newProductsList)
-//        val diffResults = DiffUtil.calculateDiff(diffUtil)
-//        selectedProductsList = newProductsList as MutableList<Product>
-//        diffResults.dispatchUpdatesTo(this)
-//    }
+    fun updateRV(newProductsList: List<Product>) {
+        val oldProductsList = items
+        val diffResults = DiffUtil.calculateDiff(ItemsDiffUtil(oldProductsList, newProductsList))
+        items = newProductsList
+        diffResults.dispatchUpdatesTo(this)
+    }
 }

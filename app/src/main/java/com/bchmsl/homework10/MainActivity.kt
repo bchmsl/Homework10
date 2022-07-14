@@ -13,7 +13,6 @@ import com.bchmsl.homework10.data.productsList
 import com.bchmsl.homework10.data.selectedProductsList
 import com.bchmsl.homework10.databinding.ActivityMainBinding
 
-@SuppressLint("NotifyDataSetChanged") // :)
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val categoriesAdapter by lazy { CategoriesAdapter() }
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         binding.rvItems.adapter = itemsAdapter
 
         selectedProductsList.addAll(productsList)
-        itemsAdapter.differ.submitList(selectedProductsList)
+        itemsAdapter.updateRV(selectedProductsList)
     }
 
     private fun listeners() {
@@ -84,9 +83,7 @@ class MainActivity : AppCompatActivity() {
         d("TAG_SELECTED_CATEGORIES", selectedCategoriesList.toString())
         d("TAG_SELECTED_PRODUCTS", selectedProductsList.toString())
 
-        itemsAdapter.notifyDataSetChanged()
+        itemsAdapter.updateRV(selectedProductsList)
 
-        itemsAdapter.differ.submitList(selectedProductsList)
-//            itemsAdapter.updateRV(selectedProductsList)
     }
 }
