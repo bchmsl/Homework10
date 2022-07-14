@@ -35,7 +35,8 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewH
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            return oldList[oldItemPosition].categoryName == newList[newItemPosition].categoryName
+            return oldList[oldItemPosition].categoryName == newList[newItemPosition].categoryName &&
+                    oldList[oldItemPosition].selected == newList[newItemPosition].selected
 
         }
 
