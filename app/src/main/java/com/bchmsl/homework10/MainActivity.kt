@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         category.selected = category in selectedCategoriesList
-        categoriesAdapter.notifyDataSetChanged()
+        categoriesAdapter.updateRV(selectedCategoriesList)
 
         getProducts()
     }

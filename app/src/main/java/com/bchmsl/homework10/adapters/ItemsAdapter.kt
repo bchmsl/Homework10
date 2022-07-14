@@ -5,9 +5,9 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bchmsl.homework10.data.Filters
 import com.bchmsl.homework10.data.Product
 import com.bchmsl.homework10.data.selectedProductsList
 import com.bchmsl.homework10.databinding.LayoutItemBinding
@@ -16,14 +16,13 @@ typealias onItemClick = (item : Product) -> Unit
 
 class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
 
-    private var items = listOf<Product>()
 
     inner class ItemsViewHolder(val binding: LayoutItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     class ItemsDiffUtil(
-        private val oldList: List<Product>,
-        private val newList: List<Product>
+        private val oldList: MutableList<Product>,
+        private val newList: MutableList<Product>
     ) : DiffUtil.Callback() {
         override fun getOldListSize(): Int = oldList.size
 
@@ -52,10 +51,10 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
         onBind(holder.binding, position)
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = selectedProductsList.size
 
     private fun onBind(binding: LayoutItemBinding, position: Int) {
-        val currentItem = items[position]
+        val currentItem = selectedProductsList[position]
         binding.apply {
             tvTitle.text = currentItem.title
             val oldPrice = "$" + currentItem.price.toString()
@@ -80,9 +79,11 @@ class ItemsAdapter : RecyclerView.Adapter<ItemsAdapter.ItemsViewHolder>() {
 
 
     fun updateRV(newProductsList: List<Product>) {
-        val oldProductsList = items
-        val diffResults = DiffUtil.calculateDiff(ItemsDiffUtil(oldProductsList, newProductsList))
-        items = newProductsList
+        val oldProductsList = selectedProductsList
+        val diffResults = DiffUtil.calculateDiff(ItemsDiffUtil(oldProductsList,
+            newProductsList as MutableList<Product>
+        ))
+        selectedProductsList = newProductsList as MutableList<Product>
         diffResults.dispatchUpdatesTo(this)
     }
 }

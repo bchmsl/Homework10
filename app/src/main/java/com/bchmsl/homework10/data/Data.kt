@@ -165,5 +165,5 @@ val productsList = listOf(
 
 var selectedProductsList = mutableListOf<Product>()
 
-val selectedCategoriesList = mutableListOf<Filters.Category>()
+var selectedCategoriesList = mutableListOf<Filters.Category>()
 

@@ -3,9 +3,9 @@ package com.bchmsl.homework10.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bchmsl.homework10.data.D
-import com.bchmsl.homework10.data.Filters
+import com.bchmsl.homework10.data.*
 import com.bchmsl.homework10.databinding.LayoutCategoryBinding
 
 typealias onClick = (category: Filters.Category) -> Unit
@@ -17,6 +17,29 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewH
 
     inner class CategoriesViewHolder(val binding: LayoutCategoryBinding) :
         RecyclerView.ViewHolder(binding.root)
+
+    class CategoriesDiffUtil(
+        private val oldList: List<Filters.Category>,
+        private val newList: List<Filters.Category>
+    ) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].categoryName == newList[newItemPosition].categoryName
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return oldList[oldItemPosition].categoryName == newList[newItemPosition].categoryName
+
+        }
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesViewHolder =
         CategoriesViewHolder(
@@ -49,5 +72,17 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoriesViewH
         } else {
             view.setBackgroundResource(D.category_unselected)
         }
+    }
+
+    fun updateRV(newCategoriesList: MutableList<Filters.Category>){
+        val oldCategoriesList = selectedCategoriesList
+        val diffResults = DiffUtil.calculateDiff(
+            CategoriesDiffUtil(
+                oldCategoriesList,
+                newCategoriesList
+            )
+        )
+        selectedCategoriesList = newCategoriesList as MutableList<Filters.Category>
+        diffResults.dispatchUpdatesTo(this)
     }
 }
